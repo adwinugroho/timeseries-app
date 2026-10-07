@@ -10,7 +10,7 @@ class BBTStateSpaceModel(MLEModel):
         super().__init__(endog=endog, k_states=1, initialization="diffuse")
 
         # Design matrix (Z): relates the state to the observation
-        self.ssm["design"] = np.ones((1, 1, self.nobs))
+        self.ssm["design"] = np.ones((1, 1))
 
         # Transition matrix (T): how the state evolves over time
         self.ssm["transition"] = np.ones((1, 1))
@@ -31,16 +31,16 @@ class BBTStateSpaceModel(MLEModel):
 
     def transform_params(self, unconstrained):
         # Ensure variances are positive
-        return unconstrained**2
+        return np.asarray(unconstrained) ** 2
 
     def untransform_params(self, constrained):
-        return constrained**0.5
+        return np.asarray(constrained) ** 0.5
 
     def update(self, params, **kwargs):
-        params = super().update(params, **kwargs)
+        super().update(params, **kwargs)
 
         # Observation variance
-        self["obs_cov", 0, 0] = params[0]
+        self.ssm["obs_cov", 0, 0] = params[0]
 
         # State variance
-        self["state_cov", 0, 0] = params[1]
+        self.ssm["state_cov", 0, 0] = params[1]
