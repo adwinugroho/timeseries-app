@@ -36,8 +36,13 @@ class BBTStateSpaceModel(MLEModel):
     def untransform_params(self, constrained):
         return np.asarray(constrained) ** 0.5
 
-    def update(self, params, **kwargs):
-        super().update(params, **kwargs)
+    def update(self, params, transformed=True, includes_fixed=False, complex_step=False):
+        params = super().update(
+            params,
+            transformed=transformed,
+            includes_fixed=includes_fixed,
+            complex_step=complex_step,
+        )
 
         # Observation variance
         self.ssm["obs_cov", 0, 0] = params[0]
