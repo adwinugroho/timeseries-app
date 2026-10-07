@@ -1,0 +1,82 @@
+[
+  {
+    "id": "[MS-01]",
+    "title": "Understanding Autoregressive Integrated Moving Average (ARIMA) in Physiological Data",
+    "domain": "Biostatistics & Residual Testing",
+    "date": "Oct 14, 2024",
+    "reading_time": "8 min",
+    "url": "https://blog.cryppy.id/arima-physiological-data"
+  },
+  {
+    "id": "[MS-02]",
+    "title": "Spectral Analysis and Wavelet Transform for Multi-Channel EEG Decomposition",
+    "domain": "Neurological Signal Processing",
+    "date": "Sep 28, 2024",
+    "reading_time": "12 min",
+    "url": "https://blog.cryppy.id/wavelet-transform-eeg"
+  },
+  {
+    "id": "[MS-03]",
+    "title": "From R to Python: Re-implementing Box-Jenkins Methodologies with statsmodels & Darts",
+    "domain": "Computational Infrastructure",
+    "date": "Aug 19, 2024",
+    "reading_time": "10 min",
+    "url": "https://blog.cryppy.id/r-to-python-box-jenkins"
+  },
+  {
+    "id": "[MS-04]",
+    "title": "Evaluating Predictive Uncertainty: Conformal Prediction for Healthcare Risk Stratification",
+    "domain": "Machine Learning Safety",
+    "date": "Jul 05, 2024",
+    "reading_time": "14 min",
+    "url": "https://blog.cryppy.id/conformal-prediction-healthcare"
+  },
+  {
+    "id": "[MS-05]",
+    "title": "Handling Irregularly Sampled Multimodal Time Series in MIMIC-IV ICU Records",
+    "domain": "EHR Telemetry & Neural ODEs",
+    "date": "May 22, 2024",
+    "reading_time": "15 min",
+    "url": "https://blog.cryppy.id/irregular-sampling-mimic"
+  },
+  {
+    "id": "[MS-06]",
+    "title": "State-Space Models and Mamba Architectures for Long-Horizon Physiological Forecasting",
+    "domain": "Deep Sequential Learning",
+    "date": "Apr 11, 2024",
+    "reading_time": "11 min",
+    "url": "https://blog.cryppy.id/state-space-mamba-clinical"
+  },
+  {
+    "id": "[MS-07]",
+    "title": "Kalman Filter Formulations for Real-Time Arterial Blood Pressure Denoising",
+    "domain": "Biomedical Signal Estimation",
+    "date": "Mar 03, 2024",
+    "reading_time": "9 min",
+    "url": "https://blog.cryppy.id/kalman-filter-blood-pressure"
+  },
+  {
+    "id": "[MS-08]",
+    "title": "Continuous Glucose Monitoring (CGM): Non-Stationary Dynamics and Dawn Phenomenon Drift",
+    "domain": "Metabolic Modeling",
+    "date": "Jan 27, 2024",
+    "reading_time": "13 min",
+    "url": "https://blog.cryppy.id/cgm-dynamics-dawn-phenomenon"
+  },
+  {
+    "id": "[MS-09]",
+    "title": "Extreme Value Theory (EVT) in ICU Critical Event Threshold Detection",
+    "domain": "Clinical Alert Systems",
+    "date": "Dec 15, 2023",
+    "reading_time": "10 min",
+    "url": "https://blog.cryppy.id/evt-icu-critical-events"
+  },
+  {
+    "id": "[MS-10]",
+    "title": "Time-Varying Granger Causality in Multimodal Hemodynamic Monitoring",
+    "domain": "Directed Network Inference",
+    "date": "Nov 02, 2023",
+    "reading_time": "16 min",
+    "url": "https://blog.cryppy.id/granger-causality-hemodynamics"
+  }
+]

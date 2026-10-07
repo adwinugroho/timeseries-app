@@ -49,3 +49,5 @@ class BBTStateSpaceModel(MLEModel):
 
         # State variance
         self.ssm["state_cov", 0, 0] = params[1]
+
+        return params

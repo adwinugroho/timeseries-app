@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html class="scroll-smooth bg-background text-on-surface antialiased h-full" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>{{ site_title | default("Timeseries Lab — Biomedical & Healthcare Informatics") }}</title>
+
+  <!-- Editorial Typography: Newsreader, Inter, Courier Prime -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Tailwind Configuration matching Clinical Manuscript Design System -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-container": "#1e293b",
+            "surface-container": "#e5eeff",
+            "background": "#f8f9ff",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#213145",
+            "outline": "#75777d",
+            "on-primary": "#ffffff",
+            "on-error": "#ffffff",
+            "on-primary-fixed": "#111c2d",
+            "on-secondary-container": "#006f67",
+            "surface": "#f8f9ff",
+            "tertiary": "#270c00",
+            "secondary": "#006a63",
+            "inverse-primary": "#bcc7de",
+            "on-primary-container": "#8590a6",
+            "on-background": "#0b1c30",
+            "secondary-container": "#99efe5",
+            "surface-container-low": "#eff4ff",
+            "secondary-fixed": "#9cf2e8",
+            "tertiary-container": "#471c00",
+            "primary-fixed-dim": "#bcc7de",
+            "on-tertiary-fixed": "#331200",
+            "surface-variant": "#d3e4fe",
+            "outline-variant": "#c5c6cd",
+            "on-tertiary-container": "#de722c",
+            "on-secondary-fixed": "#00201d",
+            "on-tertiary": "#ffffff",
+            "surface-dim": "#cbdbf5",
+            "surface-tint": "#545f73",
+            "on-error-container": "#93000a",
+            "on-surface": "#0b1c30",
+            "primary": "#091426",
+            "error-container": "#ffdad6",
+            "tertiary-fixed-dim": "#ffb68e",
+            "surface-container-high": "#dce9ff",
+            "primary-fixed": "#d8e3fb",
+            "error": "#ba1a1a",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#00504a",
+            "on-primary-fixed-variant": "#3c475a",
+            "on-secondary": "#ffffff",
+            "secondary-fixed-dim": "#80d5cb",
+            "surface-bright": "#f8f9ff",
+            "on-surface-variant": "#45474c",
+            "on-tertiary-fixed-variant": "#763300",
+            "tertiary-fixed": "#ffdbca"
+          },
+          fontFamily: {
+            "display": ["Newsreader", "Georgia", "serif"],
+            "title-lg": ["Inter", "sans-serif"],
+            "headline-sm": ["Newsreader", "serif"],
+            "headline-md": ["Newsreader", "serif"],
+            "headline-lg": ["Newsreader", "serif"],
+            "data-tabular": ["Courier Prime", "monospace"],
+            "annotation": ["Courier Prime", "monospace"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-caps": ["Inter", "sans-serif"]
+          },
+          fontSize: {
+            "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "400" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+            "headline-sm": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "title-lg": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "data-tabular": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "400" }],
+            "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+            "annotation": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "400" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="min-h-screen flex flex-col bg-background text-on-surface font-body-md text-body-md antialiased selection:bg-surface-variant selection:text-primary">
+
+  <!-- TOP NAVIGATION BAR (Shared Clinical Anchor) -->
+  <header class="w-full bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant sticky top-0 z-30">
+    <div class="flex justify-between items-center w-full px-6 md:px-12 max-w-7xl mx-auto h-16">
+      <div class="flex items-baseline gap-3">
+        <a class="font-display text-headline-sm font-normal text-primary tracking-tight" href="/">Timeseries Lab</a>
+        <span class="hidden sm:inline-block font-label-caps text-label-caps text-outline uppercase tracking-wider">Biomedical & Healthcare</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8">
+        <a class="border-b-2 border-secondary text-secondary font-title-md transition-colors duration-150 py-1" href="#hero">Overview</a>
+        <a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-150" href="#about">Research</a>
+        <a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-150" href="#projects">Projects</a>
+        <a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-150" href="#sandbox">Sandbox</a>
+        <a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-150" href="#blog">Blog Archive</a>
+        <a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-150" href="#contact">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-150 p-1" href="https://github.com/adwinnugroho" rel="noopener noreferrer" target="_blank" title="GitHub Repository">
+          <svg aria-hidden="true" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path>
+          </svg>
+        </a>
+        <a class="bg-primary text-on-primary font-body-sm px-3.5 py-1.5 rounded hover:bg-primary-container transition-colors duration-150 font-medium inline-block" href="#contact">
+          Inquire
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN EDITORIAL CONTENT -->
+  <main class="flex-1 w-full">
+
+    <!-- HERO SECTION -->
+    <section class="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-16 border-b border-outline-variant" id="hero">
+      <div class="max-w-4xl">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="inline-block w-2 h-2 rounded-full bg-secondary"></span>
+          <p class="font-label-caps text-label-caps tracking-widest text-outline uppercase">
+            Clinical Statistical Learning / Sequential Signal Processing
+          </p>
+        </div>
+
+        <h1 class="font-display text-5xl md:text-6xl text-on-surface font-normal tracking-tight mb-2">
+          Timeseries.
+        </h1>
+        <p class="font-headline-sm text-on-surface-variant font-normal mb-6">
+          Healthcare Biometrics &amp; Sequential Intelligence
+        </p>
+
+        <!-- Monograph Blockquote -->
+        <figure class="my-6 pl-6 pr-5 py-4 border-l-2 border-secondary bg-surface-container-lowest rounded-r border-y border-r border-outline-variant">
+          <p class="font-annotation text-annotation italic text-on-surface leading-relaxed">
+            "A time series is a sequence of observations taken sequentially through time at equal intervals, where the successive observations are assumed to be mutually dependent."
+          </p>
+          <figcaption class="mt-3 font-data-tabular text-data-tabular text-outline flex flex-wrap items-center gap-2">
+            <span class="text-on-surface font-semibold">— Jonathan D. Cryer (1986).</span>
+            <span class="text-outline-variant">|</span>
+            <span>Box &amp; Jenkins (1976), <em>Time Series Analysis: Forecasting and Control</em>.</span>
+          </figcaption>
+        </figure>
+
+        <p class="font-body-md text-on-surface-variant leading-relaxed max-w-3xl">
+          Investigating dynamic physiological trajectories, stochastic early warning markers in intensive care, and non-stationary biological oscillations through mathematically grounded computational time-series modeling.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION: RESEARCH FOUNDATIONS -->
+    <section class="border-b border-outline-variant py-16 bg-surface-container-low/50" id="about">
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="mb-10">
+          <div class="font-label-caps text-label-caps tracking-widest text-outline uppercase mb-2">Theoretical Foundation</div>
+          <h2 class="font-headline-lg text-headline-lg font-normal text-on-surface">Why Time Series in Healthcare?</h2>
+          <p class="font-body-md text-on-surface-variant mt-1">Dynamic latency, irregularly spaced observations, and time-dependent stochastic vulnerability in human physiology.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <!-- Card 1 -->
+          <div class="bg-surface-container-lowest p-6 rounded border border-outline-variant flex flex-col justify-between">
+            <div>
+              <span class="font-label-caps text-label-caps uppercase text-outline block mb-2">Clinical Context</span>
+              <h3 class="font-title-lg text-on-surface mb-3">Non-stationary physiological oscillators, never static vectors.</h3>
+              <p class="font-body-md text-on-surface-variant mb-4">
+                Traditional diagnostic paradigms evaluate patients as static records: single fasting glucose or isolated blood pressure. Homeostasis is governed by circadian biorhythms and autonomic regulation.
+              </p>
+              <p class="font-body-md text-on-surface-variant">
+                In intensive care telemetry and ambulatory monitors, the temporal derivative <span class="font-data-tabular bg-surface-container-low px-1.5 py-0.5 rounded text-secondary border border-outline-variant">dY/dt</span> and phase shifts convey early warning signals hours before decompensation occurs.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-outline-variant grid grid-cols-3 gap-2 text-center font-data-tabular text-data-tabular">
+              <div class="p-2.5 bg-surface rounded border border-outline-variant">
+                <div class="font-semibold text-primary">120–1000 Hz</div>
+                <div class="text-outline text-[10px]">Bioelectrical</div>
+              </div>
+              <div class="p-2.5 bg-surface rounded border border-outline-variant">
+                <div class="font-semibold text-primary">0.016 Hz</div>
+                <div class="text-outline text-[10px]">Hemodynamic</div>
+              </div>
+              <div class="p-2.5 bg-surface rounded border border-outline-variant">
+                <div class="font-semibold text-primary">0.003 Hz</div>
+                <div class="text-outline text-[10px]">Metabolic</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-surface-container-lowest p-6 rounded border border-outline-variant flex flex-col justify-between">
+            <div>
+              <span class="font-label-caps text-label-caps uppercase text-outline block mb-2">Methodological Evolution</span>
+              <h3 class="font-title-lg text-on-surface mb-3">From R Econometric Foundations to Python Neural Ensembles</h3>
+              <p class="font-body-md text-on-surface-variant mb-4">
+                Our research began in classical Box-Jenkins econometric frameworks in R (<code class="font-data-tabular text-secondary">forecast</code>, <code class="font-data-tabular text-secondary">tseries</code>) analyzing spectral density and stationary differencing.
+              </p>
+              <p class="font-body-md text-on-surface-variant">
+                We translated these statistical guarantees into high-throughput GPU pipelines in Python (<code class="font-data-tabular text-secondary">PyTorch</code>, <code class="font-data-tabular text-secondary">Darts</code>, <code class="font-data-tabular text-secondary">statsmodels</code>), backed by micro-latency asynchronous inference engines.
+              </p>
+            </div>
+            <div class="mt-6 p-3 rounded bg-surface border border-outline-variant font-data-tabular text-data-tabular space-y-1.5">
+              <div class="flex justify-between">
+                <span class="text-outline">Classical:</span>
+                <span class="text-on-surface font-medium">ARIMA, STL Decomp, ARCH</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-outline">Transitional:</span>
+                <span class="text-on-surface font-medium">Prophet, Gradient Boosted Lags</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-outline">Modern Deep:</span>
+                <span class="text-on-surface font-medium">TFT, N-BEATS, State-Space Mamba</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stack 4-Column Grid -->
+        <h3 class="font-title-md text-on-surface mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-lg">schema</span>
+          <span>Computational Architecture &amp; Engineering Stack</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 bg-surface-container-lowest rounded border border-outline-variant">
+            <span class="font-label-caps text-label-caps text-outline block mb-1">01 / Modeling</span>
+            <div class="font-title-md text-on-surface text-sm mb-2">Sequential Intelligence</div>
+            <ul class="font-data-tabular text-data-tabular text-on-surface-variant space-y-1">
+              <li>• Python 3.11+ / PyTorch</li>
+              <li>• Darts &amp; NeuralProphet</li>
+              <li>• XGBoost Lag Ensembles</li>
+              <li>• statsmodels (SARIMAX)</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-surface-container-lowest rounded border border-outline-variant">
+            <span class="font-label-caps text-label-caps text-outline block mb-1">02 / Serving</span>
+            <div class="font-title-md text-on-surface text-sm mb-2">Inference Engine</div>
+            <ul class="font-data-tabular text-data-tabular text-on-surface-variant space-y-1">
+              <li>• FastAPI Async Endpoints</li>
+              <li>• ONNX Runtime Optimization</li>
+              <li>• Redis Telemetry Stream</li>
+              <li>• Containerized Microservices</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-surface-container-lowest rounded border border-outline-variant">
+            <span class="font-label-caps text-label-caps text-outline block mb-1">03 / Streaming</span>
+            <div class="font-title-md text-on-surface text-sm mb-2">Telemetry Pipeline</div>
+            <ul class="font-data-tabular text-data-tabular text-on-surface-variant space-y-1">
+              <li>• Polars Vectorized Frames</li>
+              <li>• Apache Kafka Topics</li>
+              <li>• DuckDB In-Memory OLAP</li>
+              <li>• SciPy Digital Filtering</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-surface-container-lowest rounded border border-outline-variant">
+            <span class="font-label-caps text-label-caps text-outline block mb-1">04 / Publishing</span>
+            <div class="font-title-md text-on-surface text-sm mb-2">Hugo SSG Dissemination</div>
+            <ul class="font-data-tabular text-data-tabular text-on-surface-variant space-y-1">
+              <li>• Decoupled Static Hugo</li>
+              <li>• KaTeX Math Rendering</li>
+              <li>• Fast Sub-second Builds</li>
+              <li>• Academic Citation Format</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: PROJECTS & BENCHMARKS -->
+    <section class="border-b border-outline-variant py-16" id="projects">
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <div>
+            <div class="font-label-caps text-label-caps tracking-widest text-outline uppercase mb-2">Reproducible Research</div>
+            <h2 class="font-headline-lg text-headline-lg font-normal text-on-surface">Projects &amp; Clinical Benchmarks</h2>
+          </div>
+          <p class="font-data-tabular text-data-tabular text-outline max-w-xs sm:text-right">
+            Validated on MIMIC-IV, PhysioNet, and PTB-XL clinical registries.
+          </p>
+        </div>
+
+        <div class="space-y-6 mb-16">
+          {% if projects %}
+             {% for project in projects %}
+              <div class="p-6 rounded-lg bg-surface-container-low border border-outline-variant hover:border-outline transition-colors">
+              <div class="font-data-tabular text-xs text-secondary mb-2">{{ project.dataset }}</div>
+                <h3 class="font-headline-md text-on-surface mb-2">{{ project.title }}</h3>
+                <p class="font-body-md text-on-surface-variant mb-4">{{ project.description }}</p>
+              <div class="space-y-1 mb-4">
+              {% for highlight in project.highlights %}
+                <div class="font-annotation text-xs text-on-surface-variant flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                {{ highlight }}
+                </div>
+              {% endfor %}
+              </div>
+            <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-outline-variant">
+            {% for tag in project.tags %}
+              <span class="px-2 py-0.5 rounded bg-surface border border-outline-variant text-[11px] font-medium text-on-surface-variant">
+              {{ tag }}
+              </span>
+            {% endfor %}
+            </div>
+          </div>
+        {% endfor %}         
+        {% else %}
+            <!-- Fallback Static Project 01 -->
+            <article class="p-6 bg-surface-container-lowest rounded border border-outline-variant hover:border-secondary transition-colors">
+              <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-outline-variant">
+                <div class="flex items-center gap-2">
+                  <span class="font-data-tabular text-data-tabular font-semibold px-2 py-0.5 rounded bg-surface border border-outline-variant text-on-surface">Project 01</span>
+                  <span class="font-data-tabular text-data-tabular text-outline">PTB-XL / PhysioNet</span>
+                </div>
+                <div class="flex items-center gap-2 font-data-tabular text-data-tabular">
+                  <span class="text-on-surface-variant bg-surface border border-outline-variant px-2 py-0.5 rounded">AUC 0.984</span>
+                  <span class="text-on-surface-variant bg-surface border border-outline-variant px-2 py-0.5 rounded">500 Hz Multi-Lead</span>
+                </div>
+              </div>
+              <h3 class="font-headline-sm text-on-surface mb-2 font-normal">CardioPulse: Arrhythmia Early Detection via Multi-lead ECG Transformer</h3>
+              <p class="font-body-md text-on-surface-variant mb-4 leading-relaxed">
+                Temporal self-attention architectures designed to isolate premature ventricular contractions (PVCs) and paroxysmal atrial fibrillation across asynchronous 12-lead vectors with calibrated confidence intervals.
+              </p>
+              <ul class="font-data-tabular text-data-tabular text-on-surface-variant space-y-1 mb-5 pl-4 list-disc">
+                <li>Self-attention weight visualization over QRS-T morphology</li>
+                <li>Bandpass 0.5–45 Hz Butterworth IIR digital filtering</li>
+                <li>Sub-15ms inference latency per 10-second cardiac frame</li>
+              </ul>
+              <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-outline-variant">
+                <div class="flex flex-wrap gap-1.5 font-data-tabular text-data-tabular text-outline">
+                  <span class="px-2 py-0.5 bg-surface border border-outline-variant rounded">PyTorch</span>
+                  <span class="px-2 py-0.5 bg-surface border border-outline-variant rounded">SciPy</span>
+                  <span class="px-2 py-0.5 bg-surface border border-outline-variant rounded">FastAPI</span>
+                </div>
+                <div class="flex items-center gap-4 font-body-sm text-secondary">
+                  <a class="inline-flex items-center gap-0.5 font-annotation text-annotation hover:text-on-surface transition-colors" href="https://github.com" target="_blank">
+                    <span>GitHub Repository</span>
+                    <span class="material-symbols-outlined text-sm">arrow_outward</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          {% endif %}
+        </div>
+
+        <!-- INTERACTIVE FORECASTING SANDBOX -->
+        <div class="p-6 lg:p-8 bg-surface-container-lowest rounded border border-outline-variant" id="sandbox">
+          <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 mb-6 border-b border-outline-variant gap-2">
+            <div>
+              <div class="font-label-caps text-label-caps uppercase text-outline mb-1">Demonstration Prototype</div>
+              <h3 class="font-headline-sm text-on-surface font-normal">Interactive Forecasting Sandbox</h3>
+              <p class="font-body-sm text-on-surface-variant">Simulating multi-step ahead prediction on sample physiological telemetry.</p>
+            </div>
+            <div class="font-data-tabular text-data-tabular text-outline">
+              Status: <span class="text-secondary font-semibold">Active Pipeline</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div class="md:col-span-5 space-y-4">
+              <div class="p-3 bg-surface rounded border border-outline-variant font-data-tabular text-data-tabular">
+                <span class="text-outline block mb-1">Stream Source</span>
+                <div class="font-medium text-on-surface flex justify-between gap-3">
+                  <span class="truncate" id="sandbox-source-name">No file selected</span>
+                  <span class="text-outline shrink-0" id="sandbox-source-size">—</span>
+                </div>
+                <a class="mt-2 inline-flex items-center gap-1 text-[11px] text-secondary hover:underline" href="/api/v1/sandbox/sample-csv">
+                  <span class="material-symbols-outlined text-sm">download</span>
+                  <span>Download sample CSV</span>
+                </a>
+              </div>
+
+              <form class="p-3 bg-surface rounded border border-outline-variant space-y-3" id="sandbox-form">
+                <span class="font-label-caps text-label-caps uppercase text-outline block">Upload BBT Log (CSV)</span>
+                <label class="block text-xs">
+                  <span class="sr-only">CSV file</span>
+                  <input accept=".csv,text/csv" class="w-full text-body-sm font-body-sm text-on-surface-variant file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-primary file:text-on-primary file:font-medium hover:file:bg-primary-container cursor-pointer" id="sandbox-file" name="file" type="file">
+                </label>
+
+                <div class="font-data-tabular text-data-tabular">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-outline">Forecast Horizon:</span>
+                    <span class="font-semibold text-on-surface" id="sandbox-horizon-label">7 days</span>
+                  </div>
+                  <input class="w-full accent-secondary h-1.5 bg-surface-variant rounded cursor-pointer" id="sandbox-horizon" max="60" min="1" name="horizon" type="range" value="7">
+                  <div class="mt-2 text-[11px] text-outline flex justify-between">
+                    <span>Interval:</span>
+                    <span class="text-on-surface">95% (state-space)</span>
+                  </div>
+                </div>
+
+                <button class="w-full py-2 bg-primary text-on-primary rounded font-body-sm font-medium hover:bg-primary-container transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed" id="sandbox-submit" type="submit">
+                  <span class="material-symbols-outlined text-sm">play_arrow</span>
+                  <span id="sandbox-submit-label">Run BBT Analysis</span>
+                </button>
+              </form>
+
+              <div class="p-3 bg-surface rounded border border-outline-variant text-xs">
+                <span class="font-label-caps text-label-caps uppercase text-outline block mb-2">Model Architecture</span>
+                <div class="flex items-center justify-between p-2 rounded bg-surface-container-lowest border border-outline-variant">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary text-base">timeline</span>
+                    <span class="font-medium text-on-surface">Local Level State-Space</span>
+                  </div>
+                  <span class="font-data-tabular text-[11px] text-outline">statsmodels MLE</span>
+                </div>
+                <p class="mt-2 text-[11px] text-outline leading-relaxed">Kalman smoother over daily basal body temperature; 95% forecast interval.</p>
+              </div>
+
+              <p class="hidden p-3 rounded border border-error/40 bg-error-container text-on-error-container text-xs" id="sandbox-error" role="alert"></p>
+            </div>
+
+            <!-- Visualizer Plot Container -->
+            <div class="md:col-span-7 bg-surface rounded border border-outline-variant p-4 flex flex-col justify-between">
+              <div class="flex items-center justify-between font-data-tabular text-data-tabular text-outline pb-2 mb-2 border-b border-outline-variant">
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span> Observed</span>
+                  <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> Forecast</span>
+                  <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-surface-variant"></span> 95% CI</span>
+                </div>
+                <span id="sandbox-status">Idle — awaiting upload</span>
+              </div>
+              <div class="w-full h-44 relative border border-outline-variant rounded bg-surface-container-lowest flex items-center justify-center p-2">
+                <svg class="w-full h-full" id="sandbox-chart" preserveAspectRatio="none" viewBox="0 0 600 160">
+                  <text fill="#75777d" font-family="Courier Prime, monospace" font-size="11" text-anchor="middle" x="300" y="84">Upload a CSV to render the BBT signal</text>
+                </svg>
+              </div>
+              <div class="grid grid-cols-4 gap-2 mt-3 pt-2 border-t border-outline-variant font-data-tabular text-data-tabular text-center">
+                <div class="p-1 bg-surface-container-low rounded">
+                  <span class="text-outline block text-[10px]">Observations</span>
+                  <span class="font-semibold text-primary" id="metric-n">—</span>
+                </div>
+                <div class="p-1 bg-surface-container-low rounded">
+                  <span class="text-outline block text-[10px]">σ² obs</span>
+                  <span class="font-semibold text-primary" id="metric-obs">—</span>
+                </div>
+                <div class="p-1 bg-surface-container-low rounded">
+                  <span class="text-outline block text-[10px]">σ² state</span>
+                  <span class="font-semibold text-primary" id="metric-state">—</span>
+                </div>
+                <div class="p-1 bg-surface-container-low rounded">
+                  <span class="text-outline block text-[10px]">AIC</span>
+                  <span class="font-semibold text-primary" id="metric-aic">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: BLOG MONOGRAPHS INDEX -->
+    <section class="border-b border-outline-variant py-16 bg-surface-container-low/40" id="blog">
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div class="font-label-caps text-label-caps tracking-widest text-outline uppercase mb-2">Monograph Records / Hugo SSG</div>
+            <h2 class="font-headline-lg text-headline-lg font-normal text-on-surface">Recent Research Dispatches</h2>
+          </div>
+          <a class="font-annotation text-annotation text-secondary hover:underline inline-flex items-center gap-1" href="/blog-archive">
+            <span>View Full Archive</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- Clinical Editorial Table -->
+        <div class="bg-surface-container-lowest border border-outline-variant rounded overflow-hidden">
+          <div class="hidden md:grid md:grid-cols-12 gap-4 px-6 py-3 bg-surface border-b border-outline-variant font-label-caps text-label-caps text-outline uppercase tracking-wider">
+            <div class="col-span-1">Ref</div>
+            <div class="col-span-6">Monograph Title</div>
+            <div class="col-span-3">Domain</div>
+            <div class="col-span-2 text-right">Published / Route</div>
+          </div>
+          <div class="divide-y divide-outline-variant">
+            {% for item in blog_items[:5] %}
+            <article class="p-4 md:px-6 md:py-3.5 hover:bg-surface transition-colors md:grid md:grid-cols-12 md:gap-4 md:items-center group">
+              <div class="col-span-1 font-data-tabular text-data-tabular text-outline">
+                {{ item.id | default("[MS-" ~ loop.index ~ "]") }}
+              </div>
+              <div class="col-span-6 pr-2">
+                <a class="font-headline-sm text-[16px] text-on-surface font-normal group-hover:text-secondary transition-colors inline-block" href="{{ item.url }}" rel="noopener noreferrer" target="_blank">
+                  {{ item.title }}
+                </a>
+              </div>
+              <div class="col-span-3 my-1 md:my-0">
+                <span class="inline-flex items-center px-2 py-0.5 rounded bg-surface border border-outline-variant text-[11px] text-on-surface-variant font-medium">
+                  {{ item.domain }}
+                </span>
+              </div>
+              <div class="col-span-2 md:text-right flex items-center justify-start md:justify-end gap-2 font-data-tabular text-data-tabular">
+                <span class="text-outline text-xs">{{ item.date }}</span>
+                <a class="text-secondary hover:text-on-surface inline-flex items-center" href="{{ item.url }}" rel="noopener noreferrer" target="_blank">
+                  <span class="material-symbols-outlined text-sm">arrow_outward</span>
+                </a>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: CORRESPONDENCE / PROFILE -->
+    <section class="py-16" id="contact">
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="mb-10">
+          <div class="font-label-caps text-label-caps tracking-widest text-outline uppercase mb-2">Correspondence</div>
+          <h2 class="font-headline-lg text-headline-lg font-normal text-on-surface">Contact &amp; Transmissions</h2>
+          <p class="font-body-md text-on-surface-variant mt-1">Direct communication for clinical research verification, collaborations, or telemetry systems.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div class="md:col-span-5 space-y-6">
+            <div class="p-6 bg-surface-container-lowest rounded border border-outline-variant">
+              <span class="font-label-caps text-label-caps uppercase text-outline block mb-2">Principal Investigator / Engineer</span>
+              <h3 class="font-display text-2xl text-on-surface font-normal mb-1">{{ researcher.name | default("Adwin Nugroho") }}</h3>
+              <p class="font-data-tabular text-data-tabular text-outline mb-4">{{ researcher.role | default("Backend Engineer & Healthcare Enthusiast") }}</p>
+              <p class="font-body-md text-on-surface-variant leading-relaxed mb-6">
+                {{ researcher.bio | default("Archiving past academic data science research, time-series forecasting benchmarks, and low-latency clinical telemetry implementations.") }}
+              </p>
+              <div class="p-3 bg-surface rounded border border-outline-variant font-data-tabular text-data-tabular flex items-center justify-between">
+                <span class="text-on-surface">{{ researcher.email | default("adwinnugroho16@gmail.com") }}</span>
+                <button class="px-2 py-1 bg-surface-container-lowest hover:bg-surface-container-high border border-outline-variant rounded text-on-surface transition" onclick="navigator.clipboard.writeText('{{ researcher.email | default("adwinnugroho16@gmail.com") }}'); alert('Email copied!');" type="button">
+                  Copy
+                </button>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3 font-data-tabular text-data-tabular">
+              <a class="p-3 bg-surface-container-lowest rounded border border-outline-variant hover:border-secondary transition block" href="https://github.com" rel="noopener noreferrer" target="_blank">
+                <span class="text-outline text-[11px] block">Repository</span>
+                <span class="font-medium text-on-surface">GitHub</span>
+              </a>
+              <a class="p-3 bg-surface-container-lowest rounded border border-outline-variant hover:border-secondary transition block" href="https://cryppy.id" rel="noopener noreferrer" target="_blank">
+                <span class="text-outline text-[11px] block">Primary Portal</span>
+                <span class="font-medium text-on-surface">cryppy.id</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="md:col-span-7 bg-surface-container-lowest p-6 rounded border border-outline-variant">
+            <span class="font-label-caps text-label-caps uppercase text-outline block mb-4">Transmission Protocol</span>
+            <form action="/api/v1/contact" class="space-y-4" method="POST">
+              <div>
+                <label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Name / Institution</label>
+                <input class="w-full text-body-sm font-body-sm rounded border border-outline-variant bg-surface p-2.5 text-on-surface focus:outline-none focus:border-secondary" name="sender" placeholder="e.g. Dr. Jane Smith, Harvard Medical" required type="text">
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Email Endpoint</label>
+                <input class="w-full text-body-sm font-body-sm rounded border border-outline-variant bg-surface p-2.5 text-on-surface focus:outline-none focus:border-secondary" name="email" placeholder="name@domain.org" required type="email">
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Monograph / Project Topic</label>
+                <select class="w-full text-body-sm font-body-sm rounded border border-outline-variant bg-surface p-2.5 text-on-surface focus:outline-none focus:border-secondary" name="topic">
+                  <option>Collaborative Research Project</option>
+                  <option>Model Benchmark Verification</option>
+                  <option>Signal Processing Pipeline Query</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Transmission Details</label>
+                <textarea class="w-full text-body-sm font-body-sm rounded border border-outline-variant bg-surface p-2.5 text-on-surface focus:outline-none focus:border-secondary" name="message" placeholder="Outline of research query or telemetry specification..." required rows="4"></textarea>
+              </div>
+              <button class="w-full py-2.5 bg-primary text-on-primary rounded font-body-sm font-medium hover:bg-primary-container transition tracking-wide" type="submit">
+                Dispatch Transmission
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER (Shared Clinical Component) -->
+  <footer class="w-full bg-surface-container-low border-t border-outline-variant mt-auto">
+    <div class="flex flex-col md:flex-row justify-between items-center w-full px-6 md:px-12 py-8 max-w-7xl mx-auto gap-4">
+      <div class="text-on-surface-variant font-body-sm text-center md:text-left">
+        © 2026 Timeseries Lab — Biomedical &amp; Healthcare Informatics. Open Peer-Reviewed Clinical Research Monographs.
+      </div>
+      <div class="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 font-body-sm">
+        <a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Methodology &amp; Provenance</a>
+        <a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Data Dictionary</a>
+        <a class="text-on-surface-variant hover:text-secondary transition-colors" href="#contact">Contact Lab</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const form = document.getElementById("sandbox-form");
+      const fileInput = document.getElementById("sandbox-file");
+      const horizon = document.getElementById("sandbox-horizon");
+      const horizonLabel = document.getElementById("sandbox-horizon-label");
+      const submit = document.getElementById("sandbox-submit");
+      const submitLabel = document.getElementById("sandbox-submit-label");
+      const errorBox = document.getElementById("sandbox-error");
+      const statusEl = document.getElementById("sandbox-status");
+      const sourceName = document.getElementById("sandbox-source-name");
+      const sourceSize = document.getElementById("sandbox-source-size");
+      const chart = document.getElementById("sandbox-chart");
+      const metrics = {
+        n: document.getElementById("metric-n"),
+        obs: document.getElementById("metric-obs"),
+        state: document.getElementById("metric-state"),
+        aic: document.getElementById("metric-aic"),
+      };
+
+      const COLORS = { obs: "#091426", smooth: "#006a63", ci: "#d3e4fe", text: "#75777d" };
+      const W = 600;
+      const H = 160;
+      const PAD = 10;
+
+      function formatBytes(bytes) {
+        if (bytes < 1024) return bytes + " B";
+        if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+        return (bytes / 1048576).toFixed(1) + " MB";
+      }
+
+      function fmt(value) {
+        if (value === null || value === undefined || Number.isNaN(value)) return "\u2014";
+        if (value !== 0 && Math.abs(value) < 0.01) return value.toExponential(2);
+        return value.toFixed(3);
+      }
+
+      function setBusy(busy) {
+        submit.disabled = busy;
+        submitLabel.textContent = busy ? "Analyzing\u2026" : "Run BBT Analysis";
+      }
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.classList.remove("hidden");
+      }
+
+      function hideError() {
+        errorBox.textContent = "";
+        errorBox.classList.add("hidden");
+      }
+
+      function render(data) {
+        metrics.n.textContent = data.n_obs;
+        metrics.obs.textContent = fmt(data.params.sigma2_obs);
+        metrics.state.textContent = fmt(data.params.sigma2_state);
+        metrics.aic.textContent = fmt(data.aic);
+
+        const observed = data.observed.map(function (p) { return p.value; });
+        const smoothed = data.smoothed.map(function (p) { return p.value; });
+        const forecast = data.forecast;
+        const nObs = observed.length;
+        const nFc = forecast.mean.length;
+        const total = nObs + nFc;
+
+        const all = observed.concat(smoothed, forecast.lower, forecast.upper);
+        let min = Math.min.apply(null, all);
+        let max = Math.max.apply(null, all);
+        if (min === max) { min -= 0.1; max += 0.1; }
+        const pad = (max - min) * 0.08;
+        min -= pad;
+        max += pad;
+
+        const innerW = W - 2 * PAD;
+        const innerH = H - 2 * PAD;
+        const x = function (i) {
+          return PAD + (total <= 1 ? 0 : (i / (total - 1)) * innerW);
+        };
+        const y = function (value) {
+          return PAD + ((max - value) / (max - min)) * innerH;
+        };
+
+        const parts = [];
+
+        if (nFc > 0) {
+          const band = [];
+          for (let i = 0; i < nFc; i++) {
+            band.push(x(nObs + i).toFixed(1) + "," + y(forecast.upper[i]).toFixed(1));
+          }
+          for (let i = nFc - 1; i >= 0; i--) {
+            band.push(x(nObs + i).toFixed(1) + "," + y(forecast.lower[i]).toFixed(1));
+          }
+          parts.push('<polygon fill="' + COLORS.ci + '" opacity="0.6" points="' + band.join(" ") + '"></polygon>');
+        }
+
+        const observedLine = observed.map(function (value, index) {
+          return x(index).toFixed(1) + "," + y(value).toFixed(1);
+        });
+        parts.push('<polyline fill="none" stroke="' + COLORS.obs + '" stroke-width="1.75" points="' + observedLine.join(" ") + '"></polyline>');
+
+        const smoothedLine = smoothed.map(function (value, index) {
+          return x(index).toFixed(1) + "," + y(value).toFixed(1);
+        });
+        parts.push('<polyline fill="none" stroke="' + COLORS.smooth + '" stroke-opacity="0.85" stroke-width="1.5" points="' + smoothedLine.join(" ") + '"></polyline>');
+
+        if (nFc > 0 && nObs > 0) {
+          const originX = x(nObs - 1).toFixed(1);
+          parts.push('<line stroke="' + COLORS.text + '" stroke-dasharray="3 3" stroke-width="1" x1="' + originX + '" x2="' + originX + '" y1="' + PAD + '" y2="' + (H - PAD) + '"></line>');
+
+          const fcPoints = [x(nObs - 1).toFixed(1) + "," + y(smoothed[nObs - 1]).toFixed(1)];
+          for (let i = 0; i < nFc; i++) {
+            fcPoints.push(x(nObs + i).toFixed(1) + "," + y(forecast.mean[i]).toFixed(1));
+          }
+          parts.push('<polyline fill="none" stroke="' + COLORS.smooth + '" stroke-dasharray="4 3" stroke-width="1.75" points="' + fcPoints.join(" ") + '"></polyline>');
+        }
+
+        chart.innerHTML = parts.join("");
+      }
+
+      horizon.addEventListener("input", function () {
+        horizonLabel.textContent = horizon.value + " days";
+      });
+
+      fileInput.addEventListener("change", function () {
+        const file = fileInput.files[0];
+        if (!file) return;
+        sourceName.textContent = file.name;
+        sourceSize.textContent = formatBytes(file.size);
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const file = fileInput.files[0];
+        if (!file) { showError("Choose a .csv file first."); return; }
+        if (!file.name.toLowerCase().endsWith(".csv")) { showError("File must be a .csv."); return; }
+
+        hideError();
+        setBusy(true);
+        statusEl.textContent = "Fitting state-space model\u2026";
+
+        const body = new FormData();
+        body.append("file", file);
+        body.append("horizon", horizon.value);
+
+        try {
+          const response = await fetch("/api/v1/sandbox/upload", { method: "POST", body: body });
+          const data = await response.json().catch(function () { return {}; });
+          if (!response.ok) {
+            throw new Error(data.detail || ("Request failed (" + response.status + ")"));
+          }
+          render(data);
+          statusEl.textContent = "Completed \u00b7 " + data.n_obs + " obs";
+        } catch (error) {
+          showError(error.message || "Unexpected error.");
+          statusEl.textContent = "Failed";
+        } finally {
+          setBusy(false);
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
